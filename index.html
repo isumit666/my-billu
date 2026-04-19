@@ -352,26 +352,22 @@
 
     // একদম শেষের ম্যাজিক এবং ডেটাবেস সেভ করার ফাংশন
     async function showFinalYes() {
-      document.querySelectorAll('.container').forEach(el => el.classList.add('hidden'));
-      document.getElementById('step-yes').classList.remove('hidden');
+    // স্ক্রিনে রঙিন কাগজ (Confetti) উড়বে
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
 
-      const animationEnd = Date.now() + 5000;
-      
-      const interval = setInterval(function() {
-        if (Date.now() > animationEnd) {
-          return clearInterval(interval);
-        }
-        confetti({ 
-          particleCount: 30, 
-          spread: 60, 
-          origin: { y: 0.6 }, 
-          colors: ['#ff4d6d', '#ffffff'] 
-        });
-      }, 200);
-
-      if (_supabase) {
-        await _supabase.from('responses').insert([{ response: 'Yes', timestamp: new Date() }]);
-      }
+    // ১.৫ সেকেন্ড পর হোয়াটসঅ্যাপে নিয়ে যাবে
+    setTimeout(() => {
+        const phone = "918017361306"; // তোমার ইন্ডিয়ান নম্বর সেট করা হলো
+        const message = "বিল্লু বলছি! তোমার সারপ্রাইজটা দারুণ ছিল। আমিও তোমায় অনেক ভালোবাসি! ❤️";
+        const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        
+        // সরাসরি হোয়াটসঅ্যাপ উইন্ডো খুলে যাবে
+        window.location.href = whatsappUrl;
+    }, 1500);
     }
 
     // বাটন পালানোর লজিক
