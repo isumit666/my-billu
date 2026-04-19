@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>তোমাকে একটা কথা জিজ্ঞেস করার ছিল... 🙈</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Segoe+UI&display=swap" rel="stylesheet">
+
+  <meta property="og:title" content="তোমাকে একটা কথা জিজ্ঞেস করার ছিল... 🙈" />
+  <meta property="og:description" content="লিংকটা খুলে দেখো, তোমার জন্য একটা স্পেশাল সারপ্রাইজ আছে! ❤️" />
+  <meta property="og:image" content="https://media.tenor.com/f_p2vT5N8y4AAAAe/dudu-bubu.png" />
+  <meta property="og:type" content="website" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* বেসিক সেটিংস */
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Segoe UI', Tahoma, sans-serif; 
+    }
+
+    body { 
+      width: 100%; 
+      min-height: 100vh; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      /* ৪. কমলা ও কচি কলাপাতা গ্রেডিয়েন্ট */
+      background: linear-gradient(135deg, #ffe0b2, #dcedc1); 
+      overflow-x: hidden; 
+    }
+    
+    .container { 
+      display: flex; 
+      flex-direction: column; 
+      text-align: center; 
+      align-items: center; 
+      gap: 15px; 
+      width: 90%; 
+      max-width: 400px; 
+      padding: 20px; 
+      margin-bottom: 50px; /* কপিরাইটের জন্য জায়গা রাখা হলো */
+      animation: fadeIn 0.5s ease; 
+    }
+
+    /* ৫. হার্টবিট অ্যানিমেশন */
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      15% { transform: scale(1.05); }
+      30% { transform: scale(1); }
+    }
+
+    .heartbeat-text {
+      color: #d63384; 
+      font-size: 22px; 
+      line-height: 1.4;
+      animation: heartbeat 1.5s infinite;
+      font-weight: 700;
+    }
+
+    @keyframes fadeIn { 
+      from { opacity: 0; transform: translateY(10px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
+
+    .tenor-gif-wrapper { 
+      width: 250px; 
+      height: 250px; 
+      border-radius: 20px; 
+      overflow: hidden; 
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+      background-color: #fff; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+    }
+
+    .tenor-gif-embed { 
+      width: 100% !important; 
+      height: 100% !important; 
+      object-fit: cover; 
+    }
+
+    h1 { 
+      color: #d63384; 
+      font-size: 22px; 
+      line-height: 1.4; 
+    }
+
+    p { 
+      color: #666; 
+      font-style: italic; 
+      font-size: 14px; 
+    }
+
+    /* ৬. পার্সোনাল নোটের ফন্ট স্টাইল */
+    .note-text { 
+      font-family: 'Dancing Script', cursive;
+      text-align: left; 
+      margin: 10px 5px; 
+      line-height: 1.8; 
+      font-size: 20px; 
+      color: #444; 
+      font-weight: 600; 
+    }
+
+    .btn { 
+      display: flex; 
+      gap: 15px; 
+      position: relative; 
+      margin-top: 10px; 
+    }
+
+    button { 
+      padding: 12px 25px; 
+      border-radius: 50px; 
+      border: none; 
+      cursor: pointer; 
+      font-size: 15px; 
+      font-weight: bold; 
+      transition: all 0.3s ease; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    }
+
+    .btn-yes { 
+      background-color: #ff4d6d; 
+      color: white; 
+    }
+
+    .btn-yes:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255, 77, 109, 0.4);
+    }
+
+    .btn-no { 
+      background-color: white; 
+      color: #ff4d6d; 
+      border: 1px solid #ff4d6d; 
+    }
+
+    .hidden { 
+      display: none !important; 
+    }
+
+    /* ৭. কপিরাইট স্টাইল */
+    .copyright {
+      position: fixed;
+      bottom: 15px;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      color: #777;
+      font-family: sans-serif;
+      z-index: 100;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bg-music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="container" id="step-0">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="13168878375741792886" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1 class="heartbeat-text">তুমি কি আমায় ভালোবাসো? 🤗</h1>
+    <p>~আমি তো শুধু তোমারই</p>
+    <div class="btn">
+      <button class="btn-yes" onclick="startApp('yes')">হ্যাঁ</button>
+      <button class="btn-no" onclick="startApp('no', 1)">না</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="step-1">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="12611896631449379850" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1>ভালো করে ভেবে দেখো! 🙄</h1>
+    <div class="btn">
+      <button class="btn-yes" onclick="showYes()">হ্যাঁ</button>
+      <button class="btn-no" onclick="showStep(2)">না</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="step-2">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="14526934938512287526" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1>আরেকবার ভেবে দেখো! 😣</h1>
+    <div class="btn">
+      <button class="btn-yes" onclick="showYes()">হ্যাঁ</button>
+      <button class="btn-no" onclick="showStep(3)">না</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="step-3">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="22331129" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1>মেনে নাও না! আর কত ভাব খাবে 😭</h1>
+    <div class="btn">
+      <button class="btn-yes" onclick="showYes()">আচ্ছা হ্যাঁ</button>
+      <button class="btn-no" onclick="showStep(4)">উঁহু!</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="step-4">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="26932143" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1>সব স্মৃতি কি ভুলে গেলে? 🥺</h1>
+    <div class="btn">
+      <button class="btn-yes" onclick="showYes()">মনে আছে তো!</button>
+      <button class="btn-no" onclick="showStep(5)">ভুলে গেছি</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="step-5">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="1706873183702771014" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1>সত্যিই কি আর ভালোবাসো না? 💔</h1>
+    <div class="btn">
+      <button class="btn-yes" onclick="showYes()">এখনো বাসি!</button>
+      <button class="btn-no" onclick="showStep(6)">একদম না</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="step-6">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="6603495457501803985" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1>খুব জেদ তোমার, তাই না? 😤</h1>
+    <div class="btn">
+      <button class="btn-yes" onclick="showYes()">হ্যাঁ বাবা হ্যাঁ</button>
+      <button class="btn-no" onclick="showStep(7)">পারবো!</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="step-7">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="25041153" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1>কান্না করে দিবো কিন্তু! 😭</h1>
+    <div class="btn">
+      <button class="btn-yes" onclick="showYes()">কেঁদো না, হ্যাঁ!</button>
+      <button class="btn-no" onclick="showStep(8)">কাঁদো!</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="step-8">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="4813304896928859827" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1>উফ! বড্ড বেশি কথা বলছো 😡</h1>
+    <div class="btn">
+      <button class="btn-yes" onclick="showYes()">রাগ করো না, হ্যাঁ!</button>
+      <button class="btn-no" onclick="showStep(9)">বয়েই গেছে</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="step-9">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="10440259521131072914" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1>শেষ সুযোগ দিচ্ছি! 👊</h1>
+    <div class="btn">
+      <button class="btn-yes" onclick="showYes()">হ্যাঁ!</button>
+      <button class="btn-no" onclick="showStep(10)">নয়তো কী?</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="step-10">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="1128914395439640917" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1>অনেক হয়েছে! এবার ধইরাই পিটামু 👊</h1>
+    <div class="btn">
+      <button class="btn-yes" onclick="showYes()">হ্যাঁ হ্যাঁ হ্যাঁ!</button>
+      <button id="move-random" class="btn-no">না</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="step-note">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="20655915" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1>আমার কিছু কথা... 💌</h1>
+    <p class="note-text">
+      আমি হয়তো সবসময় মুখে খুব গুছিয়ে সব ফিলিংস বোঝাতে পারি না, কিন্তু আমার পুরোটা জুড়ে শুধু তুমিই আছো। "বাস তেরা নাম লিখা হ্যায়"—কথাটা আমার কাছে শুধু কোনো গানের লাইন নয়, আমার মনের সত্যিটা। তুমি এভাবেই সবসময় আমার পাশে থেকো।<br><br>
+      ইতি,<br>
+      তোমার কুত্তা।
+    </p>
+    <div class="btn">
+      <button class="btn-yes" style="width: 100%;" onclick="showFinalYes()">আমিও তোমায় ভালোবাসি ❤️</button>
+    </div>
+  </div>
+
+  <div class="container hidden" id="step-yes">
+    <div class="tenor-gif-wrapper">
+      <div class="tenor-gif-embed" data-postid="253027946666209433" data-share-method="host" data-width="100%"></div>
+    </div>
+    <h1>হিহিহিহি, আমি জানতাম! 😘</h1>
+    <p>I Love You Too! ❤️</p>
+  </div>
+
+  <div class="copyright">© 2026 Created with ❤️ by Sumit | AnimeNight Studio</div>
+
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+  <script>
+    // Supabase Configuration
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL'; 
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    let _supabase = (SUPABASE_URL !== 'YOUR_SUPABASE_URL') ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+    const music = document.getElementById('bg-music');
+
+    // মিউজিক এবং অ্যাপ শুরু করার ফাংশন
+    function startApp(choice, step) {
+      music.play().catch(e => console.log("Music blocked"));
+      
+      if (choice === 'yes') {
+        showYes();
+      } else {
+        showStep(step);
+      }
+    }
+
+    // যেকোনো ধাপ দেখানোর ফাংশন
+    function showStep(num) {
+      document.querySelectorAll('.container').forEach(el => el.classList.add('hidden'));
+      document.getElementById('step-' + num).classList.remove('hidden');
+    }
+
+    // পার্সোনাল নোট দেখানোর ফাংশন
+    function showYes() {
+      document.querySelectorAll('.container').forEach(el => el.classList.add('hidden'));
+      document.getElementById('step-note').classList.remove('hidden');
+    }
+
+    // একদম শেষের ম্যাজিক এবং ডেটাবেস সেভ করার ফাংশন
+    async function showFinalYes() {
+      document.querySelectorAll('.container').forEach(el => el.classList.add('hidden'));
+      document.getElementById('step-yes').classList.remove('hidden');
+
+      const animationEnd = Date.now() + 5000;
+      
+      const interval = setInterval(function() {
+        if (Date.now() > animationEnd) {
+          return clearInterval(interval);
+        }
+        confetti({ 
+          particleCount: 30, 
+          spread: 60, 
+          origin: { y: 0.6 }, 
+          colors: ['#ff4d6d', '#ffffff'] 
+        });
+      }, 200);
+
+      if (_supabase) {
+        await _supabase.from('responses').insert([{ response: 'Yes', timestamp: new Date() }]);
+      }
+    }
+
+    // বাটন পালানোর লজিক
+    function moveRandomEl(elm) {
+      elm.style.position = "fixed"; 
+      elm.style.top = Math.floor(Math.random() * 80 + 10) + "%";
+      elm.style.left = Math.floor(Math.random() * 80 + 10) + "%";
+    }
+
+    const moveRandom = document.querySelector("#move-random");
+    
+    if (moveRandom) {
+      moveRandom.addEventListener("mouseenter", (e) => moveRandomEl(e.target));
+      moveRandom.addEventListener("touchstart", (e) => { 
+        e.preventDefault(); 
+        moveRandomEl(e.target); 
+      });
+    }
+  </script>
+</body>
+  </html>
+  
